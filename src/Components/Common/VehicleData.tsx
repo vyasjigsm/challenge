@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from "react";
 
 import { Progress } from "reactstrap";
+import { DetailData } from "./DetailData";
 
 interface Props {
   csvResponseData: any;
   first2VehicleData: any;
   unique: number;
 }
+export type dataTransparency = {
+  label: string;
+  color: string;
+  value: number;
+  valueInPercentage: number;
+};
 
 const VehicleData: React.FC<Props> = ({
   csvResponseData,
@@ -62,7 +69,7 @@ const VehicleData: React.FC<Props> = ({
     missing.length,
   ]);
 
-  const dataTransparency = [
+  const dataTransparency: dataTransparency[] = [
     {
       label: "Valid",
       color: "bg-success",
@@ -109,20 +116,10 @@ const VehicleData: React.FC<Props> = ({
         />
       </Progress>
 
-      {dataTransparency.map((data: any, key: number) => {
+      {dataTransparency.map((data: dataTransparency, key: number) => {
         return (
           <div key={key} className="d-flex flex-column mt-2 w-full">
-            <div className="d-flex justify-content-between align-items-center w-full">
-              <div className="d-flex align-items-center gap-1">
-                <div>{data.label}</div>
-                <div className={`width-15 height-15 ${data.color}`}></div>
-              </div>
-
-              <div className="d-flex gap-3 w-full w-25 justify-content-end">
-                <div>{data.value}</div>
-                <div className="text-muted w-25">{data.valueInPercentage}%</div>
-              </div>
-            </div>
+            <DetailData {...data}></DetailData>
           </div>
         );
       })}
